@@ -18,13 +18,13 @@
         }
     ],
     "icons": {
-        "16": "./assets/img/16icon.png",
-        "64": "./assets/img/64icon.png",
-        "128": "./assets/img/128icon.png"
+        "16": "./assets/img/presearch.png",
+        "64": "./assets/img/presearch.png",
+        "128": "./assets/img/presearch.png"
     },
     "browser_action": {
         "default_icon": {
-            "16": "./assets/img/16icon.png"
+            "16": "./assets/img/presearch.png"
         },
         "default_popup": "popup.html"
     },

@@ -18,7 +18,7 @@
     <div class="p-3 bg-light rounded-3" style="width: 500px;">
       <div class="container-fluid py-3">
         <img class="mx-auto d-block" src="./assets/img/128icon.png" width="60" alt="Icon">
-        <h1 class="display-5 fw-bold">NOVA's Presearch bot (Cleo)</h1>
+        <h1 class="display-5 fw-bold">Presearch Bot</h1>
         <div class="row">
           <button class="btn btn-primary" id="search_button">
             <i class="bi bi-piggy-bank"></i>
