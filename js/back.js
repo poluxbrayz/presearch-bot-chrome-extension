@@ -14,24 +14,33 @@ const timer = (ms) => new Promise((res) => setTimeout(res, ms));
 
 async function load() {
 	// create tab
-	chrome.tabs.create({url: "about:blank", active: true }, tab =>{
+	/*chrome.tabs.create({url: "about:blank", active: true }, tab =>{
         brw_tab_id = tab.id;
-    });    
+    });*/
+	let tab = await createTab('about:blank');
 	
-	idInterval=setInterval(function(){
+	chrome.tabs.onRemoved.addListener(function(tabId, removeInfo) {
+       if(tabId==brw_tab_id){
+		   brw_tab_id=null;
+	   }
+	});
+	
+	/*idInterval=setInterval(function(){
 		if(brw_tab_id != null || countInterval>=60){
 			countInterval=0;
 			clearInterval(idInterval);
 		}else{
 			countInterval++;
 		}	
-	},1000);
+	},1000);*/
 	
 	// We need to wrap the loop into an async function for this to work
-	for (let i = 0; i < 30; i++) {
+	let i = 0;
+	while (i < 30 &&  brw_tab_id != null) {
 		search_array = search_words.split(' ');
 		random_number = Math.floor(Math.random() * search_array.length);
 		chrome.tabs.update(brw_tab_id, {url: 'https://saltolinkee.glitch.me/presearch?name=https://presearch.com/search?q='+search_array[random_number]});
+		i++;
 		await timer(25000); // then the created Promise can be awaited
 	}
 
@@ -40,4 +49,18 @@ async function load() {
 	    chrome.tabs.remove(brw_tab_id);
         brw_tab_id = null;
     }     
+}
+
+function createTab (url) {
+    return new Promise(resolve => {
+        chrome.tabs.create({url}, async tab => {
+            chrome.tabs.onUpdated.addListener(function listener (tabId, info) {
+                if (info.status === 'complete' && tabId === tab.id) {
+					brw_tab_id = tab.id;
+                    chrome.tabs.onUpdated.removeListener(listener);
+                    resolve(tab);
+                }
+            });
+        });
+    });
 }
